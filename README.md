@@ -1,2 +1,3 @@
 # Front-End Capstone
-![design](https://i.imgur.com/ZCQzb0F.png)
+
+<img alt='design' src='https://i.imgur.com/ZCQzb0F.png' width=500 height=500>

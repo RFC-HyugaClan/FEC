@@ -11,19 +11,18 @@ import RatingsAndReviews from './RatingsAndReviews';
 import GlobalContext from './Context';
 
 function App() {
-  // Product Details
-  // Related Products
-  // Questions and Answers
-  // Ratings and Reviews
-
   const [currentProduct, setCurrentProduct] = useState({});
   useEffect(() => {
     // GET /products/:product_id
-    axios.get('/products/:1')
+    axios.get('/api/products/66645')
       .then((response) => {
+        console.log(response.data)
         setCurrentProduct(response.data);
       })
-      .catch(() => setCurrentProduct({}));
+      .catch((err) =>{
+        console.log(err)
+        setCurrentProduct({})
+      });
   }, []);
 
   const state = useMemo(() => ({ currentProduct, setCurrentProduct }), [currentProduct]);

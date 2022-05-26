@@ -6,14 +6,15 @@ import PropTypes from 'prop-types';
 // ------------------------------------------------ Styled Components
 const ThumbNailsContainer = styled.section`
   display: flex;
+  height: 20vw;
   flex-direction: column;
-  justify-content: space-around;
   padding: 10px;
   padding-bottom: 20%;
 `;
 const ThumbNail = styled.img`
+  margin-left: 5px;
   width: 10%;
-  min-height: 10%;
+  min-height: 4vw;
   border: 1px solid;
   margin-top: 10px;
   background-size: cover;
@@ -50,7 +51,8 @@ const RightArrow = styled.span`
   }
 `;
 const Focused = styled.img`
-  max-width: 100%;
+  width: 100%;
+  min-height: 4vw;
   border: 1px solid;
   margin-top: 10px;
   &:hover {
@@ -71,7 +73,7 @@ transform: scale(${(props) => props.scale});
 }
 `;
 const Arrow = styled.div`
-margin-left: 4%;
+margin-left: 4.2%;
 font-size: 20pt;
 width: 15px;
 height: 15px;
@@ -81,8 +83,9 @@ cursor: pointer;
 }
 `;
 const Underline = styled.div`
+width: 10%;
+margin-left: 5px;
 border-bottom: 3px solid;
-max-width: 10%;
 `;
 const FullScreenBtn = styled.span`
   position: absolute;
@@ -98,12 +101,13 @@ export default function ImageGallery({ items, thumbNailCount }) {
   const len = items.length - 1;
   const [index, setIndex] = useState(0);
   const [min, setMin] = useState(0);
-  const [max, setMax] = useState((thumbNailCount || 7));
+  const [max, setMax] = useState((thumbNailCount || 3));
   const [position, setPosition] = useState('relative');
   // ------------------------------------------------- Methods
   const positionToggle = useCallback((e) => {
     e.preventDefault();
-    setPosition((prev) => (prev === 'relative' ? 'absolute' : 'relative'));
+    console.log('dont forget to fix FullScreen/Zoom functionality');
+    // setPosition((prev) => (prev === 'relative' ? 'absolute' : 'relative'));
   });
   const clickHandler = useCallback((e) => {
     e.preventDefault();
@@ -167,25 +171,26 @@ export default function ImageGallery({ items, thumbNailCount }) {
       </ThumbNailsContainer>
 
       { index > min && <LeftArrow onClick={scroll('left')}><FontAwesomeIcon icon={solid('arrow-left')} /></LeftArrow>}
-      { (index < max && index < len) && <RightArrow onClick={scroll('right')}><FontAwesomeIcon onClick={scroll('right')} icon={solid('arrow-right')} /></RightArrow> }
+      { (index < max && index < len) && <RightArrow onClick={scroll('right')}><FontAwesomeIcon icon={solid('arrow-right')} /></RightArrow> }
     </Container>
   );
 }
 
 // ---------------------------------------------------- Prop Types
 ImageGallery.propTypes = {
-  items: PropTypes.shape({
+  items: PropTypes.arrayOf(PropTypes.objectOf({
     url: PropTypes.string,
     thumbnail_url: PropTypes.string,
     filter: PropTypes.func,
     length: PropTypes.func,
-  }).isRequired,
+  })).isRequired,
   thumbNailCount: PropTypes.number,
 };
 ImageGallery.defaultProps = {
-  thumbNailCount: 7,
+  thumbNailCount: 3,
 };
 
 // add arrow key functionality
 // fix image size for thumbnail
 // stop state changing when I click a thumbnail
+// right arrow is double clicking for some reason

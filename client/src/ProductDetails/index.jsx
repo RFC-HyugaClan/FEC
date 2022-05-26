@@ -1,8 +1,11 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 import ImageGallery from './components/ImageGallery';
 import Wrapper from './components/Wrapper';
+import ProductInfo from './components/ProductInfo';
+import StyleSelector from './components/StyleSelector';
+import AddToCart from './components/AddToCart';
 import GlobalContext from '../Context';
-import axios from 'axios';
 
 export default function ProductDetails() {
   const { currentProduct } = useContext(GlobalContext);
@@ -18,10 +21,32 @@ export default function ProductDetails() {
       .catch((error) => { throw error; });
   }, [currentProduct]);
 
+  // console.log('current product: ', currentProduct);
+  // console.log('current style: ', currentStyle);
   return (
-    <Wrapper>
-      <ImageGallery items={currentStyle.photos} />
-    </Wrapper>
+    <div style={{
+      display: 'flex',
+      margin: '0',
+    }}
+    >
+      <div style={{ height: '60vw', width: '60vw' }}>
+        <ImageGallery
+          items={currentStyle.photos}
+        />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', minWidth: '400px' }}>
+        <ProductInfo
+          title={currentProduct.name}
+          rating={50}
+          category={currentProduct.category}
+          price={currentStyle.original_price}
+          salePrice={currentStyle.sale_price}
+          description={currentProduct.description}
+        />
+        <StyleSelector />
+        <AddToCart />
+      </div>
+    </div>
   );
 }
 

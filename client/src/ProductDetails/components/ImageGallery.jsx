@@ -1,23 +1,25 @@
-import React,{useState, useEffect, useMemo} from 'react';
-import Wrapper from './Wrapper';
+import React, { useState, useMemo, useCallback } from 'react';
 import styled from 'styled-components';
-//------------------------------------------------Styled Components
-
-const ThumbNails = styled.section`
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import PropTypes from 'prop-types';
+// ------------------------------------------------ Styled Components
+const ThumbNailsContainer = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   padding: 10px;
-  gap: 10px;
   padding-bottom: 20%;
 `;
 const ThumbNail = styled.img`
   width: 10%;
   min-height: 10%;
   border: 1px solid;
+  margin-top: 10px;
   background-size: cover;
   &:hover {
-    transform: scale(103%)
+    transform: scale(103%);
+    cursor: pointer;
   }
 `;
 const LeftArrow = styled.span`
@@ -50,79 +52,140 @@ const RightArrow = styled.span`
 const Focused = styled.img`
   max-width: 100%;
   border: 1px solid;
-
+  margin-top: 10px;
   &:hover {
     transform: scale(103%)
     }
 `;
 const Container = styled.section`
-background-image: url(${props => props.image});
+background-image: url(${(props) => props.image});
 background-repeat: no-repeat;
 background-size: cover;
 overflow-y: hidden;
-position: relative;
+position: ${(props) => props.position};
+transform: scale(${(props) => props.scale});
+&:hover {
+    cursor: -moz-zoom-in;
+    cursor: -webkit-zoom-in;
+    cursor: ${(props) => (props.position === 'relative' ? 'zoom-in ' : 'crosshair')};
+}
 `;
-
+const Arrow = styled.div`
+margin-left: 4%;
+font-size: 20pt;
+width: 15px;
+height: 15px;
+cursor: pointer;
+&:hover{
+  transform: scale(102%)
+}
+`;
+const Underline = styled.div`
+border-bottom: 3px solid;
+max-width: 10%;
+`;
+const FullScreenBtn = styled.span`
+  position: absolute;
+  top: 4%;
+  right: 4%;
+  &:hover {
+    transform: scale(110%);
+    cursor: pointer;
+  }
+`;
 //  ------------------------------------------------- Exported Component
-  export default function ImageGallery({items}) {
-    const len = items.length - 1;
-    const [index, setIndex] = useState(0);
-    const [pics, setPics] = useState([]);
-    const [min, setMin] = useState(0);
-    const [max, setMax] = useState(len);
-
-    useEffect(() => {
-      setPics(items.filter((item, i) => {
-        if(i < max) return false;
-        if(i < min) return false;
-        if(i > min) return true;
-        if(i < max) return true;
-      }).map( (item, i) => {
-        if (i == index) {
-          return (
-            <div key={i} style={{borderBottom: "3px solid", maxWidth: "10%"}}>
-              <Focused key={i} id={i} src={item.url}/>
-            </div>
-          )
-        } else {
-          return <ThumbNail key={i} id={i} src={item.url} />
-        }
-    }));
-    }, [index, items])
-
-//------------------------------------------------- Methods
-    const clickHandler = (e) => {
-      e.preventDefault();
-      setIndex(e.target.id);
+export default function ImageGallery({ items, thumbNailCount }) {
+  const len = items.length - 1;
+  const [index, setIndex] = useState(0);
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState((thumbNailCount || 7));
+  const [position, setPosition] = useState('relative');
+  // ------------------------------------------------- Methods
+  const positionToggle = useCallback((e) => {
+    e.preventDefault();
+    setPosition((prev) => (prev === 'relative' ? 'absolute' : 'relative'));
+  });
+  const clickHandler = useCallback((e) => {
+    e.preventDefault();
+    setIndex(Number(e.target.id));
+  }, []);
+  const scroll = (dir) => {
+    if (dir === 'up') {
+      return (e) => {
+        e.preventDefault();
+        setMin((prev) => ((prev - 1) < 0 ? prev : prev - 1));
+        setMax((prev) => ((min - 1) < 0 ? prev : prev - 1));
+      };
     }
-    const arrowHandler = (dir) => {
-      if (dir === 'left') {
-       return (e) => {
-         e.preventDefault();
-         setIndex(prev => prev-- > 0 ? prev-- : 0)
-      }
-     } else if (dir === 'right') {
-        return (e) => {
-          e.preventDefault();
-          setIndex(prev => prev++ < items.length -1 ? prev++ : len)
-        }
-      }
+    if (dir === 'down') {
+      return (e) => {
+        e.preventDefault();
+        setMin((prev) => (max + 1 > len ? prev : prev + 1));
+        setMax((prev) => ((prev + 1) > len ? prev : prev + 1));
+      };
     }
-
+    if (dir === 'left') {
+      return (e) => {
+        e.preventDefault();
+        setIndex((prev) => (prev - 1 > 0 ? Number(prev - 1) : 0));
+      };
+    }
+    if (dir === 'right') {
+      return (e) => {
+        e.preventDefault();
+        setIndex((prev) => ((prev + 1) < len ? Number(prev + 1) : len));
+      };
+    }
+    return null;
+  };
+  const pics = useMemo(() => items.filter((item, i) => {
+    if (i >= min && i <= max) return true;
+    return false;
+  }).map((item, i) => {
+    if (i + min === Number(index)) {
+      return (
+        <Underline key={item.url + 1}>
+          <Focused onClick={clickHandler} key={item.url} id={i + min} src={item.url} />
+        </Underline>
+      );
+    }
+    return <ThumbNail onClick={clickHandler} key={item.url} id={i + min} src={item.url} />;
+  }), [index, items, max, min]);
+  // ------------------------------------------------- JSX
   return (
-        <Container image={items[index].url}>
-           {index > 5 && <div id={index} style={{marginLeft: "5%", fontSize: "20pt", marginTop: "10px"}} onClick={scrollUp}>⌃</div> }
-          <ThumbNails id={index} onClick={clickHandler}>
-            { pics }
-            {len > 4 && <div id={index} style={{marginLeft: "4%", fontSize: "20pt"}} onClick={scroll}>⌄</div> }
-          </ThumbNails>
+    <Container image={items[index].url} onClick={positionToggle} position={position}>
+      <ThumbNailsContainer id={index}>
+        <FullScreenBtn onClick={positionToggle}><FontAwesomeIcon onClick={positionToggle} icon={solid('expand')} /></FullScreenBtn>
 
-          { index > 0 && <LeftArrow onClick={arrowHandler('left')}>←</LeftArrow>}
-          { index < len && <RightArrow onClick={arrowHandler('right')}>→</RightArrow> }
-        </Container>
-  )
+        {min > 0
+        && <Arrow><FontAwesomeIcon onClick={scroll('up')} icon={solid('angle-up')} /></Arrow>}
+
+        { pics }
+
+        {(len > max && index < len)
+        && <Arrow><FontAwesomeIcon onClick={scroll('down')} icon={solid('angle-down')} /></Arrow> }
+      </ThumbNailsContainer>
+
+      { index > min && <LeftArrow onClick={scroll('left')}><FontAwesomeIcon icon={solid('arrow-left')} /></LeftArrow>}
+      { (index < max && index < len) && <RightArrow onClick={scroll('right')}><FontAwesomeIcon onClick={scroll('right')} icon={solid('arrow-right')} /></RightArrow> }
+    </Container>
+  );
 }
 
-// make a new list for thumbnails, with index > 7
-//filter boundaries
-//add arrow key functionality
+// ---------------------------------------------------- Prop Types
+ImageGallery.propTypes = {
+  items: PropTypes.shape({
+    url: PropTypes.string,
+    thumbnail_url: PropTypes.string,
+    filter: PropTypes.func,
+    length: PropTypes.func,
+  }).isRequired,
+  thumbNailCount: PropTypes.number,
+};
+ImageGallery.defaultProps = {
+  thumbNailCount: 7,
+};
+
+// add arrow key functionality
+// fix image size for thumbnail
+// stop state changing when I click a thumbnail

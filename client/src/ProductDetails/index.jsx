@@ -5,24 +5,24 @@ import GlobalContext from '../Context';
 import axios from 'axios';
 
 export default function ProductDetails() {
-  const {currentProduct} = useContext(GlobalContext);
-  const [styles, setStyles] = useState([])
-  const [currentStyle, setCurrentStyle] = useState({photos: [{url:'https://images.unsplash.com/photo-1554774853-d50f9c681ae2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1651&q=80'}]});
+  const { currentProduct } = useContext(GlobalContext);
+  const [styles, setStyles] = useState([]);
+  const [currentStyle, setCurrentStyle] = useState({ photos: [{ url: 'link' }] });
 
-  useEffect(_=> {
+  useEffect(() => {
     axios.get(`api/products/${currentProduct.id}/styles`)
-      .then(response => {
+      .then((response) => {
         setCurrentStyle(response.data.results[0]);
         setStyles(response.data.results);
       })
-      .catch(error => console.log(error))
-  }, [currentProduct])
+      .catch((error) => { throw error; });
+  }, [currentProduct]);
 
   return (
     <Wrapper>
       <ImageGallery items={currentStyle.photos} />
     </Wrapper>
-  )
+  );
 }
 
 // 0: {style_id: 411550, name: 'Black', original_price: '65.00', sale_price: null, default?: true, …}

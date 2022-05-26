@@ -17,6 +17,7 @@ app.use('/api/*', async (req, res) => {
       url: process.env.API_URL + req.params[0],
       headers: {Authorization: process.env.API_KEY},
       data: req.body,
+      params: req.query,
     });
     res.send(payload.data)
   }

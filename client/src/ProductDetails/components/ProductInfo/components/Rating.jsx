@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Stars = styled.div`
+  margin-top: 15px;
   position: relative;
   vertical-align: middle;
   display: inline-block;
@@ -14,7 +15,7 @@ const FullStar = styled.div`
   position: absolute;
   left: 0;
   top: 0;
-  width: ${(props) => props.rating}%;
+  width: 50%;
   white-space: nowrap;
   overflow: hidden;
   font-size: 16pt;

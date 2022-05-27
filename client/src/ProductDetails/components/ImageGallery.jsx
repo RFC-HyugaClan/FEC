@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 // ------------------------------------------------ Styled Components
 const ThumbNailsContainer = styled.section`
   display: flex;
-  height: 20vw;
   flex-direction: column;
   padding: 10px;
   padding-bottom: 20%;
@@ -52,20 +51,24 @@ const RightArrow = styled.span`
 `;
 const Focused = styled.img`
   width: 100%;
+  max-height: 50%;
   min-height: 4vw;
   border: 1px solid;
   margin-top: 10px;
   &:hover {
-    transform: scale(103%)
-    }
+    transform: scale(103%);
+    cursor: pointer;
+  }
 `;
 const Container = styled.section`
+min-height: 200px;
 background-image: url(${(props) => props.image});
 background-repeat: no-repeat;
-background-size: cover;
+background-size: 100% 100%;
 overflow-y: hidden;
 position: ${(props) => props.position};
 transform: scale(${(props) => props.scale});
+user-select: none;
 &:hover {
     cursor: -moz-zoom-in;
     cursor: -webkit-zoom-in;
@@ -101,7 +104,7 @@ export default function ImageGallery({ items, thumbNailCount }) {
   const len = items.length - 1;
   const [index, setIndex] = useState(0);
   const [min, setMin] = useState(0);
-  const [max, setMax] = useState((thumbNailCount || 3));
+  const [max, setMax] = useState((thumbNailCount));
   const [position, setPosition] = useState('relative');
   // ------------------------------------------------- Methods
   const positionToggle = useCallback((e) => {
@@ -149,11 +152,11 @@ export default function ImageGallery({ items, thumbNailCount }) {
     if (i + min === Number(index)) {
       return (
         <Underline key={item.url + 1}>
-          <Focused onClick={clickHandler} key={item.url} id={i + min} src={item.url} />
+          <Focused onClick={clickHandler} key={item.url} id={i + min} src={item.thumbnail_url} />
         </Underline>
       );
     }
-    return <ThumbNail onClick={clickHandler} key={item.url} id={i + min} src={item.url} />;
+    return <ThumbNail onClick={clickHandler} key={item.url} id={i + min} src={item.thumbnail_url} />;
   }), [index, items, max, min]);
   // ------------------------------------------------- JSX
   return (
@@ -187,7 +190,7 @@ ImageGallery.propTypes = {
   thumbNailCount: PropTypes.number,
 };
 ImageGallery.defaultProps = {
-  thumbNailCount: 3,
+  thumbNailCount: 4,
 };
 
 // add arrow key functionality

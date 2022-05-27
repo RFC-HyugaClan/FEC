@@ -1,7 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { brands } from '@fortawesome/fontawesome-svg-core/import.macro';
 import Rating from './components/Rating';
-import Wrapper from '../Wrapper';
 
 export default function ProductInfo({
   rating,
@@ -9,25 +10,61 @@ export default function ProductInfo({
   title,
   price,
   salePrice,
-  description
+  description,
 }) {
   return (
-    <Wrapper>
+    <div>
       <Rating rating={rating} />
-      <h2>{category}</h2>
+      <span style={{ position: 'relative', top: '10px', marginLeft: '5px' }}><a href="#RatingReviews">Read All Reviews</a></span>
+      <p>{category}</p>
       <h1>{title}</h1>
-      <p>{price}</p>
-      <p>{salePrice}</p>
+      <div>
+        {
+          salePrice ? (
+            <div>
+              <s>
+                $
+                {price}
+                &nbsp;
+              </s>
+              <span style={{ color: 'red' }}>
+                $
+                {salePrice}
+              </span>
+            </div>
+          )
+            : (
+              <h3>
+                $
+                {price}
+              </h3>
+            )
+      }
+      </div>
       <p>{description}</p>
-    </Wrapper>
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <a aria-label="facebook link" href="https://facebook.com"><FontAwesomeIcon size="2x" icon={brands("facebook-square")} /></a>
+        <a aria-label="twitter link" href="https://twitter.com/"><FontAwesomeIcon size="2x" icon={brands('twitter')} /></a>
+        <a aria-label="pinterest link" href="https://www.pinterest.com/"><FontAwesomeIcon size="2x" icon={brands('pinterest-square')} /></a>
+      </div>
+    </div>
   );
 }
+ProductInfo.propTypes = {
+  rating: PropTypes.number,
+  category: PropTypes.string,
+  title: PropTypes.string,
+  price: PropTypes.string,
+  salePrice: PropTypes.string,
+  description: PropTypes.string,
+};
+ProductInfo.defaultProps = {
+  rating: 0,
+  category: 'Unknown',
+  title: 'Unknown',
+  price: 'N/A',
+  salePrice: null,
+  description: null,
+};
 
-// Star Rating - avg rating based on reviews - 5 stars
-// Read all [n of reviews] reviews should redirect to ratings and reviews. ONLY IF REVIEWS EXIST
-// Add Prod Category and Title
-// Get price from current style - may be on sale
-// if Product Overview exists, display it.
-// share link icons for FB Twitter Pinterest;
-
-// props - name, rating, Category, title, price, salePrice - description
+// share link icons for FB Twitter Pinterest

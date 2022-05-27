@@ -14,14 +14,14 @@ function App() {
   const [currentProduct, setCurrentProduct] = useState({});
   useEffect(() => {
     // GET /products/:product_id
-    axios.get('/api/products/66645')
+    axios.get('/api/products/66649')
       .then((response) => {
         console.log(response.data)
         setCurrentProduct(response.data);
       })
-      .catch((err) =>{
-        console.log(err)
-        setCurrentProduct({})
+      .catch((err) => {
+        console.log(err);
+        setCurrentProduct({});
       });
   }, []);
 

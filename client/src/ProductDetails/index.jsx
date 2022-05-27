@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import ImageGallery from './components/ImageGallery';
-import Wrapper from './components/Wrapper';
 import ProductInfo from './components/ProductInfo';
 import StyleSelector from './components/StyleSelector';
 import AddToCart from './components/AddToCart';
@@ -10,7 +9,7 @@ import GlobalContext from '../Context';
 export default function ProductDetails() {
   const { currentProduct } = useContext(GlobalContext);
   const [styles, setStyles] = useState([]);
-  const [currentStyle, setCurrentStyle] = useState({ photos: [{ url: 'link' }] });
+  const [currentStyle, setCurrentStyle] = useState({ photos: [{ url: 'link' }], skus: { size: '10', quantity: '5' } });
 
   useEffect(() => {
     axios.get(`api/products/${currentProduct.id}/styles`)
@@ -22,34 +21,40 @@ export default function ProductDetails() {
   }, [currentProduct]);
 
   // console.log('current product: ', currentProduct);
-  // console.log('current style: ', currentStyle);
+  console.log('current style: ', currentStyle);
   return (
     <div style={{
       display: 'flex',
-      margin: '0',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      justifyContent: 'space-around',
     }}
     >
-      <div style={{ height: '60vw', width: '60vw' }}>
+      <div style={{ width: '65vw', minWidth: '400px'}}>
         <ImageGallery
           items={currentStyle.photos}
         />
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', minWidth: '400px' }}>
+      <div style={{ marginLeft: '10px', minWidth: '400px', width: '450px' }}>
         <ProductInfo
           title={currentProduct.name}
-          rating={50}
+          rating={80}
           category={currentProduct.category}
           price={currentStyle.original_price}
           salePrice={currentStyle.sale_price}
           description={currentProduct.description}
         />
-        <StyleSelector />
-        <AddToCart />
+        <StyleSelector
+          styles={styles}
+          currentStyle={currentStyle}
+          setCurrentStyle={setCurrentStyle}
+        />
+        <AddToCart cp={currentProduct} currentStyle={currentStyle} />
       </div>
     </div>
   );
 }
-
+//currentStyle.sale_price ||
 // 0: {style_id: 411550, name: 'Black', original_price: '65.00', sale_price: null, default?: true, …}
 // 1: {style_id: 411551, name: 'Olive Green', original_price: '65.00', sale_price: null, default?: false, …}
 // 2:

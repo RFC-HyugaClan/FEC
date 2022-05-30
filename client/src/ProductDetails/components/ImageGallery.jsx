@@ -3,7 +3,8 @@ import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import PropTypes from 'prop-types';
-import useZoom, { handleMouseOver } from '../../Hooks/useZoom';
+import useZoom from '../../Hooks/useZoom';
+import useKeyPress from '../../Hooks/useKeyPress';
 // ------------------------------------------------ Styled Components
 const myAnim = keyframes`
 0% {
@@ -178,34 +179,46 @@ export default function ImageGallery({ items, thumbNailCount }) {
   const scroll = (dir) => {
     if (dir === 'up') {
       return (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+
         setMin((prev) => ((prev - 1) < 0 ? prev : prev - 1));
         setMax((prev) => ((min - 1) < 0 ? prev : prev - 1));
       };
     }
     if (dir === 'down') {
       return (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
         setMin((prev) => (max + 1 > len ? prev : prev + 1));
         setMax((prev) => ((prev + 1) > len ? prev : prev + 1));
       };
     }
     if (dir === 'left') {
       return (e) => {
-        e.stopPropagation();
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
         setIndex((prev) => (prev - 1 > 0 ? Number(prev - 1) : 0));
       };
     }
     if (dir === 'right') {
       return (e) => {
-        e.stopPropagation();
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
         setIndex((prev) => ((prev + 1) < len ? Number(prev + 1) : len));
       };
     }
     return null;
   };
+
   const pics = useMemo(() => items.filter((item, i) => {
     if (i >= min && i <= max) return true;
     return false;
@@ -236,12 +249,40 @@ export default function ImageGallery({ items, thumbNailCount }) {
       </Icon>
     )
   }), [index, items, max, min]);
+
+ useEffect(() => {
+  const downHandler = (e) => {
+    if (e.key === 'ArrowUp') {
+      scroll('up')(e);
+      return;
+    }
+    if (e.key === 'ArrowLeft') {
+      scroll('left')(e);
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      scroll('down')(e);
+      return;
+    }
+    if (e.key === 'ArrowRight') {
+      scroll('right')(e);
+      return;
+    }
+  };
+
+  window.addEventListener('keydown', downHandler);
+  return () => {
+    window.removeEventListener('keydown', downHandler);
+  };
+})
+
   // ------------------------------------------------- JSX
   return (
     <div>
       { position === 'relative'
         ?
  <Container image={items[index].url} onClick={positionToggle} position={position}>
+
         <ThumbNailsContainer id={index}>
           <FullScreenBtn onClick={positionToggle}><FontAwesomeIcon onClick={positionToggle} icon={solid('expand')} /></FullScreenBtn>
 

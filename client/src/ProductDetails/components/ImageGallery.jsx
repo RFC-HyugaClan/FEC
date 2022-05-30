@@ -1,8 +1,9 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import PropTypes from 'prop-types';
+import useZoom, { handleMouseOver } from '../../Hooks/useZoom';
 // ------------------------------------------------ Styled Components
 const myAnim = keyframes`
 0% {
@@ -36,7 +37,7 @@ const ThumbNail = styled.img`
 const LeftArrow = styled.span`
   position: absolute;
   top: 50%;
-  left: 14%;
+  left: ${(props) => !props.position ? 14 : 5}%;
   font-size: 15pt;
   text-align: center;
   padding: 5px;
@@ -72,13 +73,11 @@ const Focused = styled.img`
   }
 `;
 const Container = styled.section`
-min-height: 200px;
+min-width: 60vw;
 background-image: url(${(props) => props.image});
 background-repeat: no-repeat;
 background-size: 100% 100%;
 overflow-y: hidden;
-position: ${(props) => props.position};
-transform: scale(${(props) => props.scale});
 user-select: none;
 animation: ${myAnim} 1s ease 0s 1 normal forwards;
 &:hover {
@@ -88,7 +87,7 @@ animation: ${myAnim} 1s ease 0s 1 normal forwards;
 }
 `;
 const Arrow = styled.div`
-margin-left: 4.2%;
+margin-left: ${(props) => props.marginLeft || 0.7}%;
 font-size: 20pt;
 width: 15px;
 height: 15px;
@@ -106,10 +105,40 @@ const FullScreenBtn = styled.span`
   position: absolute;
   top: 4%;
   right: 4%;
+  padding: 1px 2px 0px 2px;
+  background-color: rgba(255,255,255, 0.2);
   &:hover {
+    background-color: rgba(255,255,255, 0.4);
     transform: scale(110%);
     cursor: pointer;
   }
+`;
+const Container2 = styled.section`
+min-width: 60vw;
+background-image: url(${(props) => props.image});
+background-repeat: no-repeat;
+background-size: 100% 100%;
+overflow-y: hidden;
+position: relative;
+display: block;
+width: 100vw;
+user-select: none;
+animation: ${myAnim} 1s ease 0s 1 normal forwards;
+&:hover {
+    cursor: ${(props) => (props.zoomedIn ? 'zoom-out ' : 'zoom-in')};
+}
+`
+const Icon = styled.span`
+margin-left: 5px;
+width: 10%;
+min-height: 4vw;
+margin-top: 10px;
+background-size: cover;
+z-index: 100;
+&:hover {
+  transform: scale(103%);
+  cursor: pointer;
+}
 `;
 //  ------------------------------------------------- Exported Component
 export default function ImageGallery({ items, thumbNailCount }) {
@@ -118,20 +147,39 @@ export default function ImageGallery({ items, thumbNailCount }) {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState((thumbNailCount));
   const [position, setPosition] = useState('relative');
+  const [zoomedIn, setZoomedIn] = useState(false);
+  const containerRef = useRef(null);
+
   // ------------------------------------------------- Methods
+  const handleZoom = useCallback(() => {
+    const [bindZoom, cancelZoom] = useZoom('container');
+    if (zoomedIn) {
+      cancelZoom();
+      Object.assign(containerRef.current.style, {
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+      });
+      setZoomedIn(false);
+      return;
+    }
+     setZoomedIn(true);
+     bindZoom();
+    });
   const positionToggle = useCallback((e) => {
+    console.log(e.target.id)
     e.preventDefault();
-    console.log('dont forget to fix FullScreen/Zoom functionality');
-    // setPosition((prev) => (prev === 'relative' ? 'absolute' : 'relative'));
+    e.stopPropagation();
+    setPosition((prev) => (prev === 'relative' ? 'absolute' : 'relative'));
   });
-  const clickHandler = useCallback((e) => {
-    e.preventDefault();
+  const clickHandler = (e) => {
+    e.stopPropagation();
     setIndex(Number(e.target.id));
-  }, []);
+  };
   const scroll = (dir) => {
     if (dir === 'up') {
       return (e) => {
         e.preventDefault();
+        e.stopPropagation();
         setMin((prev) => ((prev - 1) < 0 ? prev : prev - 1));
         setMax((prev) => ((min - 1) < 0 ? prev : prev - 1));
       };
@@ -139,6 +187,7 @@ export default function ImageGallery({ items, thumbNailCount }) {
     if (dir === 'down') {
       return (e) => {
         e.preventDefault();
+        e.stopPropagation();
         setMin((prev) => (max + 1 > len ? prev : prev + 1));
         setMax((prev) => ((prev + 1) > len ? prev : prev + 1));
       };
@@ -146,12 +195,14 @@ export default function ImageGallery({ items, thumbNailCount }) {
     if (dir === 'left') {
       return (e) => {
         e.preventDefault();
+        e.stopPropagation();
         setIndex((prev) => (prev - 1 > 0 ? Number(prev - 1) : 0));
       };
     }
     if (dir === 'right') {
       return (e) => {
         e.preventDefault();
+        e.stopPropagation();
         setIndex((prev) => ((prev + 1) < len ? Number(prev + 1) : len));
       };
     }
@@ -170,24 +221,63 @@ export default function ImageGallery({ items, thumbNailCount }) {
     }
     return <ThumbNail onClick={clickHandler} key={item.url} id={i + min} src={item.thumbnail_url} />;
   }), [index, items, max, min]);
+  const icons = useMemo(() => items.filter((item, i) => {
+    if (i >= min && i <= max) return true;
+    return false;
+  }).map((item, i) => {
+    if (i + min === Number(index)) {
+      return (
+        <Icon key={item.url.slice(0, -1)} >
+          <FontAwesomeIcon style={{color: 'pink'}} icon={solid('square')} key={item.url} onClick={(e) => setIndex(i + min)} size="2x"/>
+        </Icon>
+      );
+    }
+    return(
+      <Icon key={item.url.slice(0, -1)}>
+        <FontAwesomeIcon style={{color: '#0ABAB5'}} icon={solid('circle')} key={item.url} onClick={(e) => setIndex(i + min)} size="2x"/>
+      </Icon>
+    )
+  }), [index, items, max, min]);
   // ------------------------------------------------- JSX
   return (
-    <Container image={items[index].url} onClick={positionToggle} position={position}>
-      <ThumbNailsContainer id={index}>
-        <FullScreenBtn onClick={positionToggle}><FontAwesomeIcon onClick={positionToggle} icon={solid('expand')} /></FullScreenBtn>
+    <div>
+      { position === 'relative'
+        ?
+ <Container image={items[index].url} onClick={positionToggle} position={position}>
+        <ThumbNailsContainer id={index}>
+          <FullScreenBtn onClick={positionToggle}><FontAwesomeIcon onClick={positionToggle} icon={solid('expand')} /></FullScreenBtn>
 
-        {min > 0
-        && <Arrow><FontAwesomeIcon onClick={scroll('up')} icon={solid('angle-up')} /></Arrow>}
+          {min > 0
+          && <Arrow marginLeft='4.2'><FontAwesomeIcon onClick={scroll('up')} icon={solid('angle-up')} /></Arrow>}
 
-        { pics }
+          { pics }
 
-        {(len > max && index < len)
-        && <Arrow><FontAwesomeIcon onClick={scroll('down')} icon={solid('angle-down')} /></Arrow> }
-      </ThumbNailsContainer>
+          {(len > max && index < len)
+          && <Arrow marginLeft='4.2'><FontAwesomeIcon onClick={scroll('down')} icon={solid('angle-down')} /></Arrow> }
+        </ThumbNailsContainer>
 
-      { index > min && <LeftArrow onClick={scroll('left')}><FontAwesomeIcon icon={solid('arrow-left')} /></LeftArrow>}
-      { (index < max && index < len) && <RightArrow onClick={scroll('right')}><FontAwesomeIcon icon={solid('arrow-right')} /></RightArrow> }
-    </Container>
+        { index > min && <LeftArrow onClick={scroll('left')}><FontAwesomeIcon icon={solid('arrow-left')} /></LeftArrow>}
+        { (index < max && index < len) && <RightArrow onClick={scroll('right')}><FontAwesomeIcon icon={solid('arrow-right')} /></RightArrow> }
+      </Container>
+  :
+    <Container2 ref={containerRef} id="container" image={items[index].url} zoomedIn={zoomedIn} position={position} onClick={handleZoom}>
+       <ThumbNailsContainer>
+          <FullScreenBtn onClick={positionToggle}><FontAwesomeIcon onClick={positionToggle} icon={solid('expand')} /></FullScreenBtn>
+
+          {min > 0
+          && <Arrow><FontAwesomeIcon onClick={scroll('up')} icon={solid('angle-up')} /></Arrow>}
+
+          { icons }
+
+          {(len > max && index < len)
+          && <Arrow><FontAwesomeIcon onClick={scroll('down')} icon={solid('angle-down')} /></Arrow> }
+        </ThumbNailsContainer>
+
+        { index > min && <LeftArrow position={position} onClick={scroll('left')}><FontAwesomeIcon icon={solid('arrow-left')} /></LeftArrow>}
+        { (index < max && index < len) && <RightArrow onClick={scroll('right')}><FontAwesomeIcon icon={solid('arrow-right')} /></RightArrow> }
+    </Container2>
+    }
+    </div>
   );
 }
 

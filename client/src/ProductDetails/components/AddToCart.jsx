@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import axios from 'axios';
 
 export default function AddToCart({ cp, currentStyle }) {
   const [curQty, setcurQty] = useState(Object.values(currentStyle.skus)[0].quantity);
@@ -12,8 +13,17 @@ export default function AddToCart({ cp, currentStyle }) {
   };
   const addToCartHandler = (e) => {
     // add post request to server from here.
+    const keys = Object.keys(currentStyle.skus);
+    let i = 0;
+    while (currentStyle.skus[keys[i]].size !== curSize) {
+      i += 1;
+    }
     e.preventDefault();
-    alert(`${qtyInp.current.value} ${currentStyle.name} ${cp.name}'s has been added to your cart!`);
+    axios.get('/api/cart', {sku_id: currentStyle.skus[keys[i]].size })
+      .then(() => {
+        alert(`${qtyInp.current.value} ${currentStyle.name} ${cp.name}'s has been added to your cart!`);
+      })
+      .catch((err) => console.log(err));
   };
   const iconToggle = () => {
     if (currentIcon === '✩') {
@@ -42,7 +52,7 @@ export default function AddToCart({ cp, currentStyle }) {
       <input style={{ marginLeft: '20px', textAlign: 'right', height: '37px', width: '120px', fontSize: '18px', padding: '10px', fontSize: '18px' }} placeholder="0" ref={qtyInp} type="number" max={`${curQty}`} min="0" />
       </div>
       <br />
-      <div style={{ display: 'flex', gap: '30px', marginTop: '20px' }}>
+      <div style={{ display: 'flex', gap: '30px' }}>
         { Number(curQty) > 0 && <button type='submit' style={{width: '320px', fontSize: '18px', height: '60px', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 'lighter', backgroundColor: 'white', border: '1px solid'}} onClick={addToCartHandler}>ADD TO CART &nbsp; 🛒 <span>＋</span></button>}
         <button style={{fontSize: '26px', textAlign: 'center', width: '65px', height: '60px', backgroundColor: 'white', border: '1px solid'}} onClick={iconToggle} type="toggle">{currentIcon}</button>
       </div>

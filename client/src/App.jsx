@@ -16,11 +16,11 @@ function App() {
     // GET /products/:product_id
     axios.get('/api/products/66649')
       .then((response) => {
-        console.log(response.data)
+        console.log("🚀 ~ file: App.jsx ~ line 19 ~ .then ~ response", response)
         setCurrentProduct(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("🚀 ~ file: App.jsx ~ line 23 ~ useEffect ~ err", err)
         setCurrentProduct({});
       });
   }, []);

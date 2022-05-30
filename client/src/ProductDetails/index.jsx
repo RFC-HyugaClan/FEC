@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import styled from 'styled-components';
 import axios from 'axios';
 import ImageGallery from './components/ImageGallery';
 import ProductInfo from './components/ProductInfo';
@@ -6,6 +7,12 @@ import StyleSelector from './components/StyleSelector';
 import AddToCart from './components/AddToCart';
 import GlobalContext from '../Context';
 
+const Wrapped = styled.div`
+margin-right: 60px;
+margin-left: 10px;
+min-width: 300px;
+max-width: 450px;
+`;
 export default function ProductDetails() {
   const { currentProduct } = useContext(GlobalContext);
   const [styles, setStyles] = useState([]);
@@ -28,12 +35,10 @@ export default function ProductDetails() {
       justifyContent: 'space-around',
     }}
     >
-      <div style={{ width: '60vw', minWidth: '400px' }}>
-        <ImageGallery
-          items={currentStyle.photos}
-        />
-      </div>
-      <div style={{ marginRight: '60px', marginLeft: '10px', minWidth: '300px', maxWidth: '450px' }}>
+      <ImageGallery
+        items={currentStyle.photos}
+      />
+      <Wrapped>
         <ProductInfo
           title={currentProduct.name}
           rating={80}
@@ -48,7 +53,7 @@ export default function ProductDetails() {
           setCurrentStyle={setCurrentStyle}
         />
         <AddToCart cp={currentProduct} currentStyle={currentStyle} />
-      </div>
+      </Wrapped>
     </div>
   );
 }

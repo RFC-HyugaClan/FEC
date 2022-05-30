@@ -130,7 +130,7 @@ animation: ${myAnim} 1s ease 0s 1 normal forwards;
 `
 const Icon = styled.span`
 margin-left: 5px;
-width: 10%;
+width: 1%;
 min-height: 4vw;
 margin-top: 10px;
 background-size: cover;
@@ -194,14 +194,12 @@ export default function ImageGallery({ items, thumbNailCount }) {
     }
     if (dir === 'left') {
       return (e) => {
-        e.preventDefault();
         e.stopPropagation();
         setIndex((prev) => (prev - 1 > 0 ? Number(prev - 1) : 0));
       };
     }
     if (dir === 'right') {
       return (e) => {
-        e.preventDefault();
         e.stopPropagation();
         setIndex((prev) => ((prev + 1) < len ? Number(prev + 1) : len));
       };

@@ -1,9 +1,20 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import PropTypes from 'prop-types';
 // ------------------------------------------------ Styled Components
+const myAnim = keyframes`
+0% {
+  opacity: 0;
+  transform: translateX(-250px);
+}
+
+100% {
+  opacity: 1;
+  transform: translateX(0);
+}
+`;
 const ThumbNailsContainer = styled.section`
   display: flex;
   flex-direction: column;
@@ -69,6 +80,7 @@ overflow-y: hidden;
 position: ${(props) => props.position};
 transform: scale(${(props) => props.scale});
 user-select: none;
+animation: ${myAnim} 1s ease 0s 1 normal forwards;
 &:hover {
     cursor: -moz-zoom-in;
     cursor: -webkit-zoom-in;

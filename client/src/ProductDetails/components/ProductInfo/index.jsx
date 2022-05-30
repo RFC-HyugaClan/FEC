@@ -43,7 +43,7 @@ export default function ProductInfo({
       </div>
       <p>{description}</p>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-        <a aria-label="facebook link" href="https://facebook.com"><FontAwesomeIcon size="2x" icon={brands("facebook-square")} /></a>
+        <a aria-label="facebook link" href="https://facebook.com"><FontAwesomeIcon size="2x" icon={brands('facebook-square')} /></a>
         <a aria-label="twitter link" href="https://twitter.com/"><FontAwesomeIcon size="2x" icon={brands('twitter')} /></a>
         <a aria-label="pinterest link" href="https://www.pinterest.com/"><FontAwesomeIcon size="2x" icon={brands('pinterest-square')} /></a>
       </div>

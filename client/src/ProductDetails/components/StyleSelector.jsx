@@ -4,14 +4,14 @@ import Styled from 'styled-components';
 const Style = Styled.img`
   border-radius: 50%;
   object-fit: cover;
-  width: 5em;
-  height: 5em;
+  width: 3em;
+  height: 3em;
   &:hover{
     outline: 2px solid;
   }
 `;
 const Grid = Styled.div`
-  height: 250px;
+  height: 150px;
   margin-left: 25px;
   display: grid;
   justify-content: center;
@@ -25,7 +25,7 @@ export default function StyleSelector({ styles, currentStyle, setCurrentStyle })
   return (
     <>
       <h2>
-        Styles &gt;
+        Styles &nbsp;&gt;
         &nbsp;
         {currentStyle.name}
       </h2>

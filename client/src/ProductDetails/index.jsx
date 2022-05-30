@@ -9,7 +9,7 @@ import GlobalContext from '../Context';
 export default function ProductDetails() {
   const { currentProduct } = useContext(GlobalContext);
   const [styles, setStyles] = useState([]);
-  const [currentStyle, setCurrentStyle] = useState({ photos: [{ url: 'link' }], skus: { size: '10', quantity: '5' } });
+  const [currentStyle, setCurrentStyle] = useState({ photos: [{ url: './assets/loadingImg.webp' }], skus: { size: '10', quantity: '5' } });
 
   useEffect(() => {
     axios.get(`api/products/${currentProduct.id}/styles`)
@@ -20,8 +20,6 @@ export default function ProductDetails() {
       .catch((error) => { throw error; });
   }, [currentProduct]);
 
-  // console.log('current product: ', currentProduct);
-  console.log('current style: ', currentStyle);
   return (
     <div style={{
       display: 'flex',
@@ -30,12 +28,12 @@ export default function ProductDetails() {
       justifyContent: 'space-around',
     }}
     >
-      <div style={{ width: '65vw', minWidth: '400px'}}>
+      <div style={{ width: '60vw', minWidth: '400px' }}>
         <ImageGallery
           items={currentStyle.photos}
         />
       </div>
-      <div style={{ marginLeft: '10px', minWidth: '400px', width: '450px' }}>
+      <div style={{ marginRight: '60px', marginLeft: '10px', minWidth: '300px', maxWidth: '450px' }}>
         <ProductInfo
           title={currentProduct.name}
           rating={80}

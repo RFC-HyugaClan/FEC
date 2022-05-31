@@ -16,22 +16,22 @@ function App() {
     // GET /products/:product_id
     axios.get('/api/products/66645')
       .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         setCurrentProduct(response.data);
       })
-      .catch((err) =>{
+      .catch((err) => {
         console.log(err)
-        setCurrentProduct({})
+        setCurrentProduct({});
       });
   }, []);
 
   const state = useMemo(() => ({ currentProduct, setCurrentProduct }), [currentProduct]);
   return (
     <GlobalContext.Provider value={state}>
-      <ProductDetails />
-      <RelatedItems />
+      {/* <ProductDetails />
+      <RelatedItems /> */}
       <QuestionsAndAnswers />
-      <RatingsAndReviews />
+      {/* <RatingsAndReviews /> */}
     </GlobalContext.Provider>
   );
 }

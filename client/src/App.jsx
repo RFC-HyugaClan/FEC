@@ -28,10 +28,10 @@ function App() {
   const state = useMemo(() => ({ currentProduct, setCurrentProduct }), [currentProduct]);
   return (
     <GlobalContext.Provider value={state}>
-      {/* <ProductDetails />
-      <RelatedItems /> */}
+      <ProductDetails />
+      <RelatedItems />
       <QuestionsAndAnswers />
-      {/* <RatingsAndReviews /> */}
+      <RatingsAndReviews />
     </GlobalContext.Provider>
   );
 }

@@ -14,7 +14,7 @@ min-width: 300px;
 max-width: 450px;
 `;
 export default function ProductDetails() {
-  const { currentProduct } = useContext(GlobalContext);
+  const { currentProduct, currentRating } = useContext(GlobalContext);
   const [styles, setStyles] = useState([]);
   const [currentStyle, setCurrentStyle] = useState({ photos: [{ url: './assets/loadingImg.webp' }], skus: { size: '10', quantity: '5' } });
 
@@ -41,7 +41,7 @@ export default function ProductDetails() {
       <Wrapped>
         <ProductInfo
           title={currentProduct.name}
-          rating={80}
+          rating={currentRating * 20}
           category={currentProduct.category}
           price={currentStyle.original_price}
           salePrice={currentStyle.sale_price}

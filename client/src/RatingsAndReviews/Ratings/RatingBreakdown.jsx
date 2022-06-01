@@ -30,7 +30,7 @@ function RatingBreakdown(data) {
 export default RatingBreakdown;
 
 const FullStars = styled.div`
-  width: ${(props) => props.starRating}%;
+  width: ${(props) => props.starRating - 3}%;
   grid-column: 1;
   grid-row: 1;
   overflow: hidden;

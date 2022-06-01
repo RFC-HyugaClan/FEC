@@ -16,10 +16,11 @@ function App() {
   useEffect(() => {
     axios.get('/api/products/66642')
       .then((response) => {
+        // console.log(response.data)
         setCurrentProduct(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err)
         setCurrentProduct({});
       });
   }, []);

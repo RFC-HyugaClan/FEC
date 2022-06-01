@@ -10,7 +10,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
 app.use('/api/*', async (req, res) => {
   try {
-    console.log(req.body)
     const payload = await axios({
       method: req.method.toLowerCase(),
       url: process.env.API_URL + req.params[0],

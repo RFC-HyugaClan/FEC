@@ -9,9 +9,7 @@ const app = express()
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
 app.use('/api/*', async (req, res) => {
-  //console.log(process.env.API_URL + req.originalUrl.slice(5), req.method);
   try {
-    console.log('line15', process.env.API_URL + req.params[0])
     const payload = await axios({
       method: req.method.toLowerCase(),
       url: process.env.API_URL + req.params[0],
@@ -21,8 +19,8 @@ app.use('/api/*', async (req, res) => {
     });
     res.send(payload.data)
   }
-  catch {
-    console.log('req failed')
+  catch (error) {
+    console.log(error.response)
   }
 })
 

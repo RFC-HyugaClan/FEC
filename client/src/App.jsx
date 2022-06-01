@@ -12,20 +12,22 @@ import GlobalContext from './Context';
 
 function App() {
   const [currentProduct, setCurrentProduct] = useState({});
+  const [currentRating, setCurrentRating] = useState(0);
   useEffect(() => {
-    // GET /products/:product_id
-    axios.get('/api/products/66649')
+    axios.get('/api/products/66642')
       .then((response) => {
-        console.log("🚀 ~ file: App.jsx ~ line 19 ~ .then ~ response", response)
+        // console.log(response.data)
         setCurrentProduct(response.data);
       })
       .catch((err) => {
-        console.log("🚀 ~ file: App.jsx ~ line 23 ~ useEffect ~ err", err)
+        console.log(err)
         setCurrentProduct({});
       });
   }, []);
 
-  const state = useMemo(() => ({ currentProduct, setCurrentProduct }), [currentProduct]);
+  const state = useMemo(() => ({
+    currentProduct, setCurrentProduct, currentRating, setCurrentRating,
+  }), [currentProduct]);
   return (
     <GlobalContext.Provider value={state}>
       <ProductDetails />

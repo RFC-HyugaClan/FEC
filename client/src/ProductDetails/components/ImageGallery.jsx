@@ -26,7 +26,7 @@ const ThumbNailsContainer = styled.section`
 const ThumbNail = styled.img`
   margin-left: 5px;
   width: 10%;
-  min-height: 4vw;
+  height: 4vw;
   border: 1px solid;
   margin-top: 10px;
   background-size: cover;
@@ -64,8 +64,7 @@ const RightArrow = styled.span`
 `;
 const Focused = styled.img`
   width: 100%;
-  max-height: 50%;
-  min-height: 4vw;
+  height: 4vw;
   border: 1px solid;
   margin-top: 10px;
   &:hover {
@@ -75,6 +74,7 @@ const Focused = styled.img`
 `;
 const Container = styled.section`
 min-width: 60vw;
+max-height: 800px;
 background-image: url(${(props) => props.image});
 background-repeat: no-repeat;
 background-size: 100% 100%;
@@ -116,6 +116,7 @@ const FullScreenBtn = styled.span`
 `;
 const Container2 = styled.section`
 min-width: 60vw;
+max-height: 800px;
 background-image: url(${(props) => props.image});
 background-repeat: no-repeat;
 background-size: 100% 100%;

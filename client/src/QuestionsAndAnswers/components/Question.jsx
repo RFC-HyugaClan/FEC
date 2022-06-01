@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Answer from './Answer';
+import AddAnswerModal from './AddAnswerModal';
 
 function Question(prop) {
   const { question } = prop;
@@ -48,9 +49,8 @@ function Question(prop) {
       <div>
         date: {question.question_date}
       </div>
-      <div onClick={handleHelpfulClick}>
-        helpful: {question.question_helpfulness}
-      </div>
+      <button onClick={handleHelpfulClick} type="button">helpful: {question.question_helpfulness}</button>
+      <AddAnswerModal currentQuestionID={question.question_id} />
       <button onClick={handleReportClick} type="button">report question</button>
       {answersList.length > 0
         ? answersList.map((answer) => <Answer key={question.answers[answer].id} answer={question.answers[answer]}/>)

@@ -14,21 +14,21 @@ function QuestionsAndAnswers() {
   // add a question
 
   const state = React.useContext(GlobalContext);
-
-  // get questions from current product (global context)
-  // right now, hardcoded current product
+  const [fetchedQuestionsList, setFetchedQuestionsList] = useState([]);
   const [currentQuestionList, setCurrentQuestionList] = useState([]);
   useEffect(() => {
     axios.get('/api/qa/questions', {
       params: {
-        product_id: state.currentProduct.id,
+        product_id: state.currentProduct.id || 66643,
       },
     })
       .then((response) => {
+        setFetchedQuestionsList(response.data.results);
         setCurrentQuestionList(response.data.results);
       })
       .catch((err) => {
         console.log(err);
+        setFetchedQuestionsList([]);
         setCurrentQuestionList([]);
       });
   }, [state]);
@@ -36,7 +36,11 @@ function QuestionsAndAnswers() {
   return (
     <>
       <h3> Questions and Answers </h3>
-      <Search list={currentQuestionList} filterFunction={setCurrentQuestionList} />
+      <Search
+        currentList={currentQuestionList}
+        fetchedList={fetchedQuestionsList}
+        filterFunction={setCurrentQuestionList}
+      />
       <div>
         <QuestionList list={currentQuestionList} />
         <p> </p>
@@ -45,7 +49,7 @@ function QuestionsAndAnswers() {
         <button type="button">more questions</button>
       </div>
       <div>
-        <AddQuestion />
+        <AddQuestion currentProduct={state.currentProduct.id} />
       </div>
     </>
   );

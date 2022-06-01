@@ -45,9 +45,7 @@ function Answer(prop) {
       <div>
         date: {answer.date}
       </div>
-      <div onClick={handleHelpfulClick}>
-        helpful: {answer.helpfulness}
-      </div>
+      <button onClick={handleHelpfulClick} type="button">helpful: {answer.helpfulness}</button>
       <button onClick={handleReportClick} type="button">report answer</button>
     </>
   );

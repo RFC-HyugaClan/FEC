@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
 
 import AddQuestion from './components/AddQuestion';
 import QuestionList from './components/QuestionList';
 import Search from './components/Search';
 
 import GlobalContext from '../Context';
+
+const StyledTitle = styled.h3`
+  background-color: #0ABAB5;
+  color: white;
+  width: 500px;
+  text-align: center;
+  margin: 0 auto;
+  border: 2px grey`;
 
 function QuestionsAndAnswers() {
   // search
@@ -35,7 +44,7 @@ function QuestionsAndAnswers() {
 
   return (
     <>
-      <h3> Questions and Answers </h3>
+      <StyledTitle>Questions & Answers</StyledTitle>
       <Search
         currentList={currentQuestionList}
         fetchedList={fetchedQuestionsList}
@@ -45,9 +54,9 @@ function QuestionsAndAnswers() {
         <QuestionList list={currentQuestionList} />
         <p> </p>
       </div>
-      <div>
+      {/* <div>
         <button type="button">more questions</button>
-      </div>
+      </div> */}
       <div>
         <AddQuestion currentProduct={state.currentProduct.id} />
       </div>

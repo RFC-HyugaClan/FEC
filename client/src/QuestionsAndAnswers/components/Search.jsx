@@ -1,4 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+
+const StyledForm = styled.form`
+  width: 100%;
+  text-align:center;
+  margin: 0 auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+`;
 
 function Search(prop) {
   const { currentList, fetchedList, filterFunction } = prop;
@@ -26,12 +37,12 @@ function Search(prop) {
   }
 
   return (
-    <form>
+    <StyledForm>
       <label>
         search
-        <input type="text" name="search" onChange={handleChange} />
+        <input type="text" name="search" onChange={handleChange}></input>
       </label>
-    </form>
+    </StyledForm>
   );
 }
 

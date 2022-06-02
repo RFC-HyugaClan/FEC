@@ -1,47 +1,48 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+
+const StyledForm = styled.form`
+  width: 100%;
+  text-align:center;
+  margin: 0 auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+`;
 
 function Search(prop) {
-  const { list, filterFunction } = prop;
-
-  // const exampleQuestion = {
-  //   answers: {},
-  //   asker_name: "eeeeerrrrqqqq",
-  //   question_body: "do it be hitting?",
-  //   question_date: "2022-05-31T00:00:00.000Z",
-  //   question_helpfulness: 133,
-  //   question_id: 2814,
-  //   reported: false,
-  // };
+  const { currentList, fetchedList, filterFunction } = prop;
 
   function handleChange(e) {
     // if more than 2 characters
     if (e.target.value.length > 2) {
       const results = [];
 
-      for (let i = 0; i < list.length; i += 1) {
-        console.log(list[i]);
-        console.log(list[i].question_body);
+      for (let i = 0; i < currentList.length; i += 1) {
         // if the filter matches/ parse the question body
-        for (let j = 0; j < list[i].question_body.length - e.target.value.length; j += 1) {
-          if (list[i].question_body.slice(j, j + e.target.value.length) === e.target.value) {
+        for (let j = 0; j < currentList[i].question_body.length - e.target.value.length + 1; j += 1) {
+          if (currentList[i].question_body.slice(j, j + e.target.value.length) === e.target.value) {
             // push to results array
-            results.push(list[i]);
+            results.push(currentList[i]);
           }
         }
       }
 
-      // set current questions list to filtered results
+      // set current questions currentList to filtered results
       filterFunction(results);
+    } else {
+      filterFunction(fetchedList);
     }
   }
 
   return (
-    <form>
+    <StyledForm>
       <label>
         search
-        <input type="text" name="search" onChange={handleChange} />
+        <input type="text" name="search" onChange={handleChange}></input>
       </label>
-    </form>
+    </StyledForm>
   );
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Fake = () => (
-  <div>Product Details</div>
+  <div>If only we had a teammate</div>
 )
 
 export default Fake;

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { format, formatDistance, formatRelative, subDays } from 'date-fns';
+import format from 'date-fns';
 
 import Answer from './Answer';
 import AddAnswerModal from './AddAnswerModal';
@@ -28,6 +28,7 @@ function Question(prop) {
   const answersList = Object.keys(question.answers);
 
   const questionDate = new Date(question.question_date);
+  const qAnswers = question.answers;
 
   function handleHelpfulClick() {
     console.log(question.question_id);
@@ -62,19 +63,24 @@ function Question(prop) {
   return (
     <StyledWrapper>
       <StyledDiv>
-        name: {question.asker_name}
+        name:
+        {question.asker_name}
       </StyledDiv>
       <StyledDiv>
-        Q: {question.question_body}
+        Q:
+        {question.question_body}
       </StyledDiv>
       <StyledDivRight>
         {format(questionDate, 'MMMM dd, yyyy')}
       </StyledDivRight>
       <AddAnswerModal currentQuestionID={question.question_id} />
-      <button onClick={handleHelpfulClick} type="button">helpful: {question.question_helpfulness}</button>
+      <button onClick={handleHelpfulClick} type="button">
+        helpful:
+        {question.question_helpfulness}
+      </button>
       <button onClick={handleReportClick} type="button">report question</button>
       {answersList.length > 0
-        ? answersList.map((answer) => <Answer key={question.answers[answer].id} answer={question.answers[answer]}/>)
+        ? answersList.map((answer) => <Answer key={qAnswers[answer].id} a={qAnswers[answer]} />)
         : <StyledDiv>no answers for this question</StyledDiv>}
     </StyledWrapper>
   );

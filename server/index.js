@@ -19,8 +19,8 @@ app.use('/api/*', async (req, res) => {
     });
     res.send(payload.data)
   }
-  catch {
-    console.log('req failed')
+  catch (error) {
+    console.log(error.response)
   }
 })
 

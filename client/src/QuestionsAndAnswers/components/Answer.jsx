@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { format, formatDistance, formatRelative, subDays } from 'date-fns';
+import format from 'date-fns';
 
 const StyledWrapper = styled.div`
   width: 500px;
@@ -56,15 +56,20 @@ function Answer(prop) {
   return (
     <StyledWrapper>
       <StyledDiv>
-        name: {answer.answerer_name}
+        name:
+        {answer.answerer_name}
       </StyledDiv>
       <StyledDiv>
-        A: {answer.body}
+        A:
+        {answer.body}
       </StyledDiv>
       <StyledDivRight>
         {format(answerDate, 'MMMM dd, yyyy')}
       </StyledDivRight>
-      <button onClick={handleHelpfulClick} type="button">helpful: {answer.helpfulness}</button>
+      <button onClick={handleHelpfulClick} type="button">
+        helpful:
+        {answer.helpfulness}
+      </button>
       <button onClick={handleReportClick} type="button">report answer</button>
     </StyledWrapper>
   );

@@ -34,6 +34,7 @@ function Summary(data) {
 export default Summary;
 
 const Wrapper = styled.div`
+  margin-left: 10px;
 
 `;
 
@@ -45,11 +46,12 @@ const SumInput = styled.input`
 
 const SumLabel = styled.label`
   padding-right: 10px;
+  font-size: 20px;
 `;
 
 const ConstraintChecker = styled.div`
   color: ${(props) => props.color};
   font-size: 8px;
   font-style: italic;
-
+  margin-left: 102px;
 `;

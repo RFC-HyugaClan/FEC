@@ -4,25 +4,31 @@ import styled from 'styled-components';
 function Characteristics(data) {
   const { chars, charID, setCharRating } = data;
   return (
-    <Wrapper>
+    <OuterWrapper>
       {chars.Size
         && (
         <Wrapper>
-          Size:
+          <DescWrapper>
+
+            Size:
+          </DescWrapper>
           {[...Array(5)].map((radio, index) => {
             const sizeDescr = ['A size too small', '1/2 size too small', 'Perfect', '1/2 size too big', 'A size too big'];
             return (
               <CharInput key={sizeDescr[index]}>
-                <RadioLabel>{sizeDescr[index]}</RadioLabel>
-                <CharSelector
-                  type="radio"
-                  name="size"
-                  value={index + 1}
-                  onClick={(e) => setCharRating((charRating) => ({
-                    ...charRating,
-                    [charID.Size]: Number(e.target.value),
-                  }))}
-                />
+                <RadioLabel>
+                  {sizeDescr[index]}
+                  <br />
+                  <CharSelector
+                    type="radio"
+                    name="size"
+                    value={index + 1}
+                    onClick={(e) => setCharRating((charRating) => ({
+                      ...charRating,
+                      [charID.Size]: Number(e.target.value),
+                    }))}
+                  />
+                </RadioLabel>
               </CharInput>
             );
           })}
@@ -31,21 +37,27 @@ function Characteristics(data) {
       {chars.Width
         && (
         <Wrapper>
-          Width:
+          <DescWrapper>
+
+            Width:
+          </DescWrapper>
           {[...Array(5)].map((radio, index) => {
             const widthDescr = ['Too Narrow', 'Slightly Narrow', 'Perfect', 'Slightly Wide', 'Too Wide'];
             return (
               <CharInput key={widthDescr[index]}>
-                <RadioLabel>{widthDescr[index]}</RadioLabel>
-                <CharSelector
-                  type="radio"
-                  name="width"
-                  value={index + 1}
-                  onClick={(e) => setCharRating((charRating) => ({
-                    ...charRating,
-                    [charID.Width]: Number(e.target.value),
-                  }))}
-                />
+                <RadioLabel>
+                  {widthDescr[index]}
+                  <br />
+                  <CharSelector
+                    type="radio"
+                    name="width"
+                    value={index + 1}
+                    onClick={(e) => setCharRating((charRating) => ({
+                      ...charRating,
+                      [charID.Width]: Number(e.target.value),
+                    }))}
+                  />
+                </RadioLabel>
               </CharInput>
             );
           })}
@@ -54,7 +66,10 @@ function Characteristics(data) {
       {chars.Comfort
         && (
         <Wrapper>
-          Comfort:
+          <DescWrapper>
+
+            Comfort:
+          </DescWrapper>
           {[...Array(5)].map((radio, index) => {
             const comfortDescr = ['Uncomfortable', 'Slightly uncomfortable', 'Ok', 'Comfortable', 'Perfect'];
             return (
@@ -80,7 +95,10 @@ function Characteristics(data) {
       {chars.Quality
         && (
         <Wrapper>
-          Quality:
+          <DescWrapper>
+
+            Quality:
+          </DescWrapper>
           {[...Array(5)].map((radio, index) => {
             const qualityDescr = ['Poor', 'Below Average', 'What I expected', 'Pretty Great', 'Perfect'];
             return (
@@ -106,7 +124,10 @@ function Characteristics(data) {
       {chars.Length
         && (
         <Wrapper>
-          Length:
+          <DescWrapper>
+
+            Length:
+          </DescWrapper>
           {[...Array(5)].map((radio, index) => {
             const lengthDescr = ['Runs Short', 'Runs Slightly Short', 'Perfect', 'Runs Slightly Long', 'Runs Long'];
             return (
@@ -132,6 +153,9 @@ function Characteristics(data) {
       {chars.Fit
         && (
         <Wrapper>
+          <DescWrapper>
+            Fit
+          </DescWrapper>
           {[...Array(5)].map((radio, index) => {
             const fitDescr = ['Runs Tight', 'Runs Slightly Tight', 'Perfect', 'Runs Slightly Loose', 'Runs Loose'];
             return (
@@ -152,17 +176,22 @@ function Characteristics(data) {
               </CharInput>
             );
           })}
-          Fit:
         </Wrapper>
         )}
-    </Wrapper>
+    </OuterWrapper>
   );
 }
 
 export default Characteristics;
 
+const OuterWrapper = styled.div`
+
+`;
+
 const Wrapper = styled.div`
-  display: inline-block;
+  display: flex;
+  vertical-align: middle;
+  margin-left: 10px;
 `;
 
 const RadioLabel = styled.label`
@@ -178,4 +207,9 @@ const CharSelector = styled.input`
 
 const CharInput = styled.label`
 
+`;
+
+const DescWrapper = styled.div`
+  display: inline-block;
+  font-size: 20px;
 `;

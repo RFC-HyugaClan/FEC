@@ -31,9 +31,8 @@ function App() {
   return (
     <GlobalContext.Provider value={state}>
       <ProductDetails />
-      <RelatedItems />
-      <QuestionsAndAnswers />
       <RatingsAndReviews />
+      <QuestionsAndAnswers />
     </GlobalContext.Provider>
   );
 }

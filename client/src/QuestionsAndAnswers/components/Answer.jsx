@@ -1,8 +1,28 @@
 import React from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+import { format } from 'date-fns';
+
+const StyledWrapper = styled.div`
+  width: 500px;
+  margin: 0 auto;
+  border: 1px grey;
+  border-style: solid;`;
+
+const StyledDiv = styled.div`
+  background-color: #b5e8e8;
+  font-family: "Lucida Console", "Courier New", monospace;
+  `;
+
+const StyledDivRight = styled.div`
+  background-color: #b5e8e8;
+  font-family: "Lucida Console", "Courier New", monospace;
+  text-align: right;
+  `;
 
 function Answer(prop) {
   const { answer } = prop;
+  const answerDate = new Date(answer.date);
 
   function handleHelpfulClick() {
     console.log(answer.id);
@@ -34,22 +54,24 @@ function Answer(prop) {
   }
 
   return (
-    <>
-      <p> </p>
-      <div style={{ color: 'red' }}>
-        name: {answer.answerer_name}
-      </div>
-      <div>
-        a: {answer.body}
-      </div>
-      <div>
-        date: {answer.date}
-      </div>
-      <div onClick={handleHelpfulClick}>
-        helpful: {answer.helpfulness}
-      </div>
+    <StyledWrapper>
+      <StyledDiv>
+        name:
+        {answer.answerer_name}
+      </StyledDiv>
+      <StyledDiv>
+        A:
+        {answer.body}
+      </StyledDiv>
+      <StyledDivRight>
+        {format(answerDate, 'MMMM dd, yyyy')}
+      </StyledDivRight>
+      <button onClick={handleHelpfulClick} type="button">
+        helpful:
+        {answer.helpfulness}
+      </button>
       <button onClick={handleReportClick} type="button">report answer</button>
-    </>
+    </StyledWrapper>
   );
 }
 

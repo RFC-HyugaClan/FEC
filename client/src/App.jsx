@@ -14,7 +14,7 @@ function App() {
   const [currentProduct, setCurrentProduct] = useState({});
   const [currentRating, setCurrentRating] = useState(0);
   useEffect(() => {
-    axios.get('/api/products/66642')
+    axios.get('/api/products/66649')
       .then((response) => {
         // console.log(response.data)
         setCurrentProduct(response.data);
@@ -31,9 +31,8 @@ function App() {
   return (
     <GlobalContext.Provider value={state}>
       <ProductDetails />
-      <RelatedItems />
-      <QuestionsAndAnswers />
       <RatingsAndReviews />
+      <QuestionsAndAnswers />
     </GlobalContext.Provider>
   );
 }

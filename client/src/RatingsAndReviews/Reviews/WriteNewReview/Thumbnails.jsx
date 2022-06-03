@@ -22,6 +22,6 @@ const Thumbnail = styled.img`
   max-width: 100px;
   max-height: 100px;
   border-radius: 5px;
-  margin: 5px;
+  margin: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;

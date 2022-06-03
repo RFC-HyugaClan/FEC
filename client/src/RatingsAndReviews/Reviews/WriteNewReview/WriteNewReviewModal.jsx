@@ -110,8 +110,8 @@ const Modal = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 80vh;
-  width: 50vw;
+  height: 800px;
+  width: 800px;
   background: #ffffff;
   border: 5px solid black;
 

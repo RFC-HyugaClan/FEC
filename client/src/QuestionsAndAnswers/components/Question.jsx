@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import format from 'date-fns';
+import { format } from 'date-fns';
 
 import Answer from './Answer';
 import AddAnswerModal from './AddAnswerModal';
@@ -80,7 +80,7 @@ function Question(prop) {
       </button>
       <button onClick={handleReportClick} type="button">report question</button>
       {answersList.length > 0
-        ? answersList.map((answer) => <Answer key={qAnswers[answer].id} a={qAnswers[answer]} />)
+        ? answersList.map((answer) => <Answer key={qAnswers[answer].id} answer={qAnswers[answer]} />)
         : <StyledDiv>no answers for this question</StyledDiv>}
     </StyledWrapper>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import format from 'date-fns';
+import { format } from 'date-fns';
 
 const StyledWrapper = styled.div`
   width: 500px;

@@ -31,7 +31,7 @@ function StarRatingSelector(data) {
     }
   }
   return (
-    <div>
+    <Wrapper>
       Your Overall Rating:
       {[...Array(5)].map((star, index) => {
         const ratingValue = index + 1;
@@ -44,7 +44,7 @@ function StarRatingSelector(data) {
               onClick={() => { setRating(ratingValue); ratingCondition(ratingValue); }}
             />
             <FaStar
-              size={20}
+              size={30}
               color={ratingValue <= (hover || rating) ? '#ffc107' : '#e4e5e9'}
               onMouseEnter={() => setHover(ratingValue)}
               onMouseLeave={() => setHover(null)}
@@ -52,17 +52,31 @@ function StarRatingSelector(data) {
           </StarInput>
         );
       })}
-      {ratingLabel}
-    </div>
+      <RatingWrapper>
+        {ratingLabel}
+      </RatingWrapper>
+    </Wrapper>
   );
 }
 
 export default StarRatingSelector;
+
+const Wrapper = styled.div`
+  font-size: 30px;
+  margin: 5px;
+  height: 10px;
+`;
+
+const RatingWrapper = styled.div`
+  display: inline-block;
+  margin-left: 10px;
+`;
 
 const StarRadio = styled.input`
   display: none;
 `;
 
 const StarInput = styled.label`
-
+  vertical-align: middle;
+  margin-left: 10px;
 `;

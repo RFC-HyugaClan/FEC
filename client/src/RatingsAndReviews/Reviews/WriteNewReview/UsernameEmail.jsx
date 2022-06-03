@@ -32,11 +32,12 @@ const Wrapper = styled.section`
 `;
 
 const UsernameLabel = styled.label`
+  margin-left: 10px;
 
 `;
 
 const EmailLabel = styled.label`
-
+  margin-left: 45px;
 `;
 
 const UsernameInput = styled.input`
@@ -44,6 +45,7 @@ const UsernameInput = styled.input`
   border: 1px solid black;
   border-radius: 4px;
   width: 200px;
+  margin-left: 20px;
 `;
 
 const EmailInput = styled.input`

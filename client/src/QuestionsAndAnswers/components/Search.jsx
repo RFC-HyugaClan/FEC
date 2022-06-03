@@ -5,10 +5,6 @@ const StyledForm = styled.form`
   width: 100%;
   text-align:center;
   margin: 0 auto;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
 `;
 
 function Search(prop) {

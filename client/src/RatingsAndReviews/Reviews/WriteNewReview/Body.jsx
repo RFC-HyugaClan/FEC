@@ -35,6 +35,7 @@ function Body(data) {
 export default Body;
 
 const Wrapper = styled.div`
+  margin-bottom: 0px;
 
 `;
 
@@ -43,15 +44,18 @@ const BodyInput = styled.textarea`
   border-radius: 4px;
   width: 500px;
   resize: none;
+  margin-left: 40px;
 `;
 
 const BodyLabel = styled.label`
   padding-right: 10px;
+  font-size: 20px;
+  margin-left: 10px;
 `;
 
 const ConstraintChecker = styled.div`
   color: ${(props) => props.color};
   font-size: 8px;
   font-style: italic;
-
+  margin-left: 110px;
 `;

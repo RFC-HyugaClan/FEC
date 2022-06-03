@@ -25,13 +25,16 @@ function Recommendation(data) {
 export default Recommendation;
 
 const Wrapper = styled.form`
-
+  font-size: 30px;
+  margin-left: 10px;
 `;
 
 const RecommendInput = styled.input`
+  height: 20px;
+  width: 20px;
 
 `;
 
 const RadioLabel = styled.label`
-
+  margin-left: 10px;
 `;

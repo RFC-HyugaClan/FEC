@@ -1,6 +1,6 @@
 # Front-End Capstone
 
-<img alt='design' src='https://i.imgur.com/ZCQzb0F.png'>
+<img alt='design' src='https://imgur.com/a/Ie8pWmS'>
 
 # Our Trello Board
 <a href="https://trello.com/b/noG7SRCF/fec-hyuga-clan">Feel free to use this board to help contribute to our project!</a>

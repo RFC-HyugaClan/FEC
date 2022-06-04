@@ -1,4 +1,4 @@
-# Front-End Capstone
+# Project Atelier
 
 <img alt='design' src='https://i.imgur.com/MiHRwo2.png'>
 

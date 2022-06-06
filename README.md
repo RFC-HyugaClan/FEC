@@ -7,10 +7,10 @@
 ---
 # Installation
 
-### Required
-> Node v14.15.1
+### Required (latest version of)
+> Node
 >
-> NPM v6.14.11
+> NPM
 
 ### Instructions
 1. Clone the repo
@@ -21,5 +21,5 @@
 4. Compile Webpack
 > `npm run build`
 5. Run the server
-> `npm start`
+> `npm run start:dev`
 6. Go to localhost:3000

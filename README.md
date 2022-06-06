@@ -15,7 +15,7 @@
 ### Instructions
 1. Clone the repo
 > `git clone https://github.com/RFC-HyugaClan/FEC.git`
-2. Acquire a github personal access token to acquire access to the API. Create `config.js` file and insert token into the file. Should be in the same format as `example.config.js`
+2. Acquire a github personal access token to acquire access to the API. Create `.env` file and insert token into the file. Should be in the same format as `example.env`
 3. Install NPM packages
 > `npm install`
 4. Compile Webpack

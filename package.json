@@ -4,9 +4,7 @@
   "description": "Minimum viable product for our retail application",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --mode=development -w",
-    "build": "webpack --mode=production",
-    "dev": "webpack serve --open",
+    "build:dev": "webpack --mode=development -w",
     "start:dev": "nodemon server",
     "test": "jest"
   },

@@ -4,6 +4,8 @@
   "description": "Minimum viable product for our retail application",
   "main": "index.js",
   "scripts": {
+    "start:dev": "nodemon server",
+    "build:dev": "webpack --mode=development -w",
     "test": "jest"
   },
   "repository": "git+https://github.com/RFC-HyugaClan/FEC.git",

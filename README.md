@@ -5,7 +5,6 @@
 - <a href="#Description">Description</a>
 - <a href="#Wireframe">Wireframe design & Finished Product</a>
 - <a href="#Instructions">Installation</a>
-- <a href="#Lighthouse">LightHouse Audit Results</a>
 - <a href="#Roadmap">Roadmap</a>
 
 ### Description

@@ -1,10 +1,15 @@
 <img alt='design' src='https://i.imgur.com/MiHRwo2.png'>
 
-# Our Trello Board
-<a href="https://trello.com/b/noG7SRCF/fec-hyuga-clan">Feel free to use this board to help contribute to our project!</a>
-<div style="text-align:center; cursor: pointer;"><img alt='trello board design' src='https://imgur.com/Fpwue8m.png' width=500 height=250></div>
+# Table of Contents
 
----
+- <a href="#Description">Description</a>
+- <a href="#Wireframe">Wireframe design & Finished Product</a>
+- <a href="#Instructions">Installation</a>
+- <a href="#Lighthouse">LightHouse Audit Results</a>
+- <a href="#Roadmap">Roadmap</a>
+
+### Description
+Project Atelier is a monolithic front end E-Commerce application redesigned from the ground up to accomodate increased growth and traffic. Project Atelier was built using React, React Hooks, styled-components, and Express.
 # Installation
 
 ### Required (latest version of)
